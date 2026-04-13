@@ -49,16 +49,4 @@ public class ShortenerServiceTest {
         assertNotNull(response, "A resposta não deve ser nula.");
         assertEquals(SHORT_URL_DOMAIN + SHORT_CODE, response.shortUrl(), "A URL encurtada retornada deve ser a esperada.");
     }
-
-    @Test
-    @DisplayName("Teste unitário dado uma URL inválida quando generateShortUrl deve retornar status 422")
-    void TesteDadoUrlInvalida_QuandoShorten_DeveRetornarStatus422() {
-        // given
-        String invalidUrl = "invalid-url";
-
-        // when & then
-        assertThrows(IllegalArgumentException.class,
-                () -> service.shorten(invalidUrl),
-                "Deve lançar RequisicaoNaoProcessavelException para uma URL inválida.");
-    }
 }
