@@ -1,5 +1,6 @@
 package com.example.urlShortener.controller;
 
+import com.example.urlShortener.dto.request.ShortUrlRequestDTO;
 import com.example.urlShortener.dto.response.ShortUrlResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -7,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 
 public interface ShortenerController {
     @Operation(summary = "Gerar URL Curta",
@@ -46,5 +48,5 @@ public interface ShortenerController {
             responseCode = "500",
             description = "Erro interno no servidor"
     )
-    ResponseEntity<ShortUrlResponseDTO> generateShortUrl(String longUrl);
+    ResponseEntity<ShortUrlResponseDTO> generateShortUrl(@RequestBody ShortUrlRequestDTO request);
 }

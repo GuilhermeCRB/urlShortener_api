@@ -6,6 +6,7 @@ import com.example.urlShortener.service.impl.ShortenerServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -22,20 +23,14 @@ public class ShortenerControllerTest {
     private static final String SHORT_URL_DOMAIN = "http://zg.com.br/";
     private static final String PATH = "/api/shortener";
 
-    private final MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-    private final ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
-    private final ShortenerServiceImpl shortenerService;
-
-    public ShortenerControllerTest(
-            MockMvc mockMvc, ObjectMapper objectMapper, ShortenerServiceImpl shortenerService
-    ){
-        this.mockMvc = mockMvc;
-        this.objectMapper = objectMapper;
-        this.shortenerService = shortenerService;
-    }
+    private ShortenerServiceImpl shortenerService;
 
     @Test
     @DisplayName("Teste unitário dado uma URL válida quando generateShortUrl deve retornar status 200 e a URL encurtada")
@@ -45,7 +40,6 @@ public class ShortenerControllerTest {
         String shortUrl = SHORT_URL_DOMAIN + "abc123";
         ShortUrlResponseDTO responseDTO = new ShortUrlResponseDTO(shortUrl);
         ShortUrlRequestDTO requestDTO = new ShortUrlRequestDTO(validUrl);
-        String requestJson = new ObjectMapper().writeValueAsString(requestDTO);
         when(shortenerService.shorten(validUrl)).thenReturn(responseDTO);
 
         // when & then
@@ -53,7 +47,7 @@ public class ShortenerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO))
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.shortUrl").value(shortUrl));
     }
 }
