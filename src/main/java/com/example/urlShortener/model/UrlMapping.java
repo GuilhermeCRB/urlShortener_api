@@ -1,9 +1,6 @@
 package com.example.urlShortener.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -12,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Immutable;
 
-@Immutable
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -21,8 +17,9 @@ import org.hibernate.annotations.Immutable;
 @Table(name = "URL_MAPPING")
 public class UrlMapping {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false, updatable = false)
-    private String id;
+    private Long id;
 
     @Column(name = "TITLE", nullable = false)
     private String title;
