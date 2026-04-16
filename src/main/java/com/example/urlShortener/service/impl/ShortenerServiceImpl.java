@@ -11,8 +11,7 @@ import java.security.SecureRandom;
 
 @Service
 public class ShortenerServiceImpl implements ShortenerService {
-
-    private static final String SHORT_URL_DOMAIN = "http://zg.com.br/";
+    private static final String SHORT_URL_DOMAIN = "http://www.zg.com.br/";
     private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final int MAX_CHARACTERS_CODE = 5;
     private static final SecureRandom RANDOM = new SecureRandom();

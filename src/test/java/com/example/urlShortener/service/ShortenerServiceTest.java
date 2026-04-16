@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 public class ShortenerServiceTest {
 
-    private static final String SHORT_URL_DOMAIN = "http://zg.com.br/";
+    private static final String SHORT_URL_DOMAIN = "http://www.zg.com.br/";
     private static final String CODE = "abc123";
 
     @Mock

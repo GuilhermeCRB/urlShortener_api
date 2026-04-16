@@ -40,11 +40,17 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, WebRequest request) {
-        logger.warn("Erro de validação nos argumentos: {}", ex.getMessage(), ex);
+        String errorMessage = ex.getBindingResult().getFieldErrors().stream()
+                .map(fieldError -> fieldError.getDefaultMessage())
+                .findFirst()
+                .orElse("Requisição inválida.");
+
+        logger.warn("Erro de validação nos argumentos: {}", errorMessage, ex);
+
         ExceptionResponse errorResponse = new ExceptionResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 "Requisição inválida.",
-                ex.getMessage()
+                errorMessage
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }

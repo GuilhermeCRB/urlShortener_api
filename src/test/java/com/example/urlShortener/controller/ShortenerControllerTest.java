@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ShortenerController.class)
 public class ShortenerControllerTest {
 
-    private static final String SHORT_URL_DOMAIN = "http://zg.com.br/";
+    private static final String SHORT_URL_DOMAIN = "http://www.zg.com.br/";
     private static final String PATH = "/api/shortener";
 
     @Autowired
