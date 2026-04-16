@@ -33,13 +33,15 @@ public class ShortenerControllerTest {
     private ShortenerServiceImpl shortenerService;
 
     @Test
-    @DisplayName("Teste unitário dado uma URL válida quando generateShortUrl deve retornar status 200 e a URL encurtada")
-    void testeDadoUrlValida_QuandoGenerateShortUrl_DeveRetornarStatus200EUrlEncurtada() throws Exception {
+    @DisplayName("Teste unitário dado uma URL válida quando generateShortUrl deve retornar status 200 e a URL encurtada com os novos campos")
+    void testeDadoUrlValida_QuandoGenerateShortUrl_DeveRetornarStatus200EUrlEncurtadaComNovosCampos() throws Exception {
         // given
         String validUrl = "https://www.example.com";
         String shortUrl = SHORT_URL_DOMAIN + "abc123";
-        ShortUrlResponseDTO responseDTO = new ShortUrlResponseDTO(shortUrl);
-        ShortUrlRequestDTO requestDTO = new ShortUrlRequestDTO(validUrl);
+        String title = "Example Title";
+        String description = "Example Description";
+        ShortUrlResponseDTO responseDTO = new ShortUrlResponseDTO(title, description, shortUrl);
+        ShortUrlRequestDTO requestDTO = new ShortUrlRequestDTO(validUrl, title);
         when(shortenerService.shorten(validUrl)).thenReturn(responseDTO);
 
         // when & then
@@ -48,6 +50,8 @@ public class ShortenerControllerTest {
                         .content(objectMapper.writeValueAsString(requestDTO))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.shortUrl").value(shortUrl));
+                .andExpect(jsonPath("$.shortUrl").value(shortUrl))
+                .andExpect(jsonPath("$.title").value(title))
+                .andExpect(jsonPath("$.description").value(description));
     }
 }

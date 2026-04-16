@@ -22,7 +22,9 @@ public interface ShortenerController {
                     examples = @ExampleObject(
                             value = """
                                 {
-                                  "shortUrl": "http://short.url/abc123"
+                                  "title": "Exemplo de URL Encurtada",
+                                  "longUrl": "http://www.exemplo.com/uma-url-muito-longa",
+                                  "shortUrl": "http://www.zg.com.br/abc123"
                                 }
                             """
                     )

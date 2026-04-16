@@ -32,7 +32,11 @@ public class ShortenerServiceImpl implements ShortenerService {
 
         UrlMapping urlMapping = new UrlMapping ();
         UrlMapping shortenUrl = repository.save(urlMapping);
-        return new ShortUrlResponseDTO(SHORT_URL_DOMAIN + shortenUrl.getShortCode());
+        return new ShortUrlResponseDTO(
+                shortenUrl.getTitle(),
+                shortenUrl.getLongUrl(),
+                SHORT_URL_DOMAIN + shortenUrl.getShortCode()
+        );
     }
 
     private String generateRandomCode() {

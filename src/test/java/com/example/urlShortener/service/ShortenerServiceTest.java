@@ -36,8 +36,10 @@ public class ShortenerServiceTest {
     @DisplayName("Teste unitário dado uma URL válida quando shorten deve retornar a URL encurtada")
     void TesteDadoUrlValida_QuandoShorten_DeveRetornarUrlEncurtada() {
         // given
+        String title = "Example Title";
         String validUrl = "https://www.example.com";
         UrlMapping urlMapping = new UrlMapping();
+        urlMapping.setTitle(title);
         urlMapping.setLongUrl(validUrl);
         urlMapping.setShortCode(SHORT_CODE);
         when(repository.save(any(UrlMapping.class))).thenReturn(urlMapping);

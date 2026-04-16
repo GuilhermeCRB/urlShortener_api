@@ -24,6 +24,9 @@ public class UrlMapping {
     @Column(name = "ID", nullable = false, updatable = false)
     private String id;
 
+    @Column(name = "TITLE", nullable = false)
+    private String title;
+
     @Column(name = "LONG_URL", nullable = false)
     private String longUrl;
 
