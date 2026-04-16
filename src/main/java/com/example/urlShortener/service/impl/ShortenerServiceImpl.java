@@ -1,5 +1,6 @@
 package com.example.urlShortener.service.impl;
 
+import com.example.urlShortener.dto.request.ShortUrlRequestDTO;
 import com.example.urlShortener.dto.response.ShortUrlResponseDTO;
 import com.example.urlShortener.model.UrlMapping;
 import com.example.urlShortener.repository.ShortenerRepository;
@@ -23,19 +24,22 @@ public class ShortenerServiceImpl implements ShortenerService {
     }
 
     @Override
-    public ShortUrlResponseDTO shorten(String longUrl) {
-        String code;
+    public ShortUrlResponseDTO shorten(ShortUrlRequestDTO request) {
+        String generatedCode;
 
         do {
-            code = generateRandomCode();
-        } while (repository.existsByShortCode(code));
+            generatedCode = generateRandomCode();
+        } while (repository.existsByCode(generatedCode));
 
         UrlMapping urlMapping = new UrlMapping ();
-        UrlMapping shortenUrl = repository.save(urlMapping);
+        urlMapping.setTitle(request.title());
+        urlMapping.setLongUrl(request.longUrl());
+        urlMapping.setCode(generatedCode);
+        UrlMapping response = repository.save(urlMapping);
         return new ShortUrlResponseDTO(
-                shortenUrl.getTitle(),
-                shortenUrl.getLongUrl(),
-                SHORT_URL_DOMAIN + shortenUrl.getShortCode()
+                response.getTitle(),
+                response.getLongUrl(),
+                SHORT_URL_DOMAIN + response.getCode()
         );
     }
 

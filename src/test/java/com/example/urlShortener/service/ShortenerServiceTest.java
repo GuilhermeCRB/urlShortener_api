@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ShortenerServiceTest {
 
     private static final String SHORT_URL_DOMAIN = "http://zg.com.br/";
-    private static final String SHORT_CODE = "abc123";
+    private static final String CODE = "abc123";
 
     @Mock
     private ShortenerRepository repository;
@@ -38,17 +38,22 @@ public class ShortenerServiceTest {
         // given
         String title = "Example Title";
         String validUrl = "https://www.example.com";
+
+        ShortUrlRequestDTO requestDTO = new ShortUrlRequestDTO(title, validUrl);
+
         UrlMapping urlMapping = new UrlMapping();
         urlMapping.setTitle(title);
         urlMapping.setLongUrl(validUrl);
-        urlMapping.setShortCode(SHORT_CODE);
+        urlMapping.setCode(CODE);
         when(repository.save(any(UrlMapping.class))).thenReturn(urlMapping);
 
         // when
-        ShortUrlResponseDTO response = service.shorten(validUrl);
+        ShortUrlResponseDTO response = service.shorten(requestDTO);
 
         // then
         assertNotNull(response, "A resposta não deve ser nula.");
-        assertEquals(SHORT_URL_DOMAIN + SHORT_CODE, response.shortUrl(), "A URL encurtada retornada deve ser a esperada.");
+        assertEquals(title, response.title(), "O título retornado deve ser o mesmo do título fornecido.");
+        assertEquals(validUrl, response.longUrl(), "A URL longa retornada deve ser a mesma da URL fornecida.");
+        assertEquals(SHORT_URL_DOMAIN + CODE, response.shortUrl(), "A URL encurtada retornada deve ser a esperada.");
     }
 }

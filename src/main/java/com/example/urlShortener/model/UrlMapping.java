@@ -27,6 +27,6 @@ public class UrlMapping {
     @Column(name = "LONG_URL", nullable = false)
     private String longUrl;
 
-    @Column(name = "SHORT_CODE", nullable = false, length = 5)
-    private String shortCode;
+    @Column(name = "CODE", nullable = false, length = 5)
+    private String code;
 }
