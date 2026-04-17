@@ -25,7 +25,7 @@ public class ShortenerControllerImpl implements ShortenerController {
     }
 
     @Override
-    @PostMapping(path = "/", produces = "application/json")
+    @PostMapping(path = "", produces = "application/json")
     public ResponseEntity<ShortUrlResponseDTO> generateShortUrl(@Valid @RequestBody ShortUrlRequestDTO request) {
         ShortUrlResponseDTO response = shortenerService.shorten(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

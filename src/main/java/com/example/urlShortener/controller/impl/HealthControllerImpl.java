@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthControllerImpl implements HealthController {
 
     @Override
-    @GetMapping(path = "/api/health")
+    @GetMapping(path= "/api/health")
     public ResponseEntity<String> healthCeck() {
         return ResponseEntity.ok("Aplicação está rodando!");
     }
