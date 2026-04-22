@@ -1,7 +1,7 @@
 package com.example.urlShortener.controller;
 
-import com.example.urlShortener.dto.request.ShortUrlRequestDTO;
-import com.example.urlShortener.dto.response.ShortUrlResponseDTO;
+import com.example.urlShortener.dto.request.UrlMappingRequestDTO;
+import com.example.urlShortener.dto.response.UrlMappingResponseDTO;
 import com.example.urlShortener.service.impl.ShortenerServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -39,8 +39,8 @@ public class ShortenerControllerTest {
         String validUrl = "https://www.example.com";
         String shortUrl = SHORT_URL_DOMAIN + "abc123";
         String title = "Example Title";
-        ShortUrlResponseDTO responseDTO = new ShortUrlResponseDTO(title, validUrl, shortUrl);
-        ShortUrlRequestDTO requestDTO = new ShortUrlRequestDTO(title, validUrl);
+        UrlMappingResponseDTO responseDTO = new UrlMappingResponseDTO(title, validUrl, shortUrl);
+        UrlMappingRequestDTO requestDTO = new UrlMappingRequestDTO(title, validUrl);
         when(shortenerService.shorten(requestDTO)).thenReturn(responseDTO);
 
         // when & then

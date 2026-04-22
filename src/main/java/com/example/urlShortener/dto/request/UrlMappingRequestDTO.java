@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
-public record ShortUrlRequestDTO (
+public record UrlMappingRequestDTO(
         @NotBlank(message = "O título é obrigatório")
         String title,
 

@@ -1,7 +1,8 @@
 package com.example.urlShortener.service.impl;
 
-import com.example.urlShortener.dto.request.ShortUrlRequestDTO;
-import com.example.urlShortener.dto.response.ShortUrlResponseDTO;
+import com.example.urlShortener.dto.request.UrlMappingRequestDTO;
+import com.example.urlShortener.dto.response.UrlMappingResponseDTO;
+import com.example.urlShortener.dto.mapper.UrlMappingMapper;
 import com.example.urlShortener.model.UrlMapping;
 import com.example.urlShortener.repository.ShortenerRepository;
 import com.example.urlShortener.service.ShortenerService;
@@ -17,28 +18,29 @@ public class ShortenerServiceImpl implements ShortenerService {
     private static final SecureRandom RANDOM = new SecureRandom();
 
     private final ShortenerRepository repository;
+    private final UrlMappingMapper mapper;
 
-    public ShortenerServiceImpl(ShortenerRepository repository) {
+    public ShortenerServiceImpl(ShortenerRepository repository, UrlMappingMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
-    public ShortUrlResponseDTO shorten(ShortUrlRequestDTO request) {
+    public UrlMappingResponseDTO shorten(UrlMappingRequestDTO request) {
         String generatedCode;
 
         do {
             generatedCode = generateRandomCode();
         } while (repository.existsByCode(generatedCode));
 
-        UrlMapping urlMapping = new UrlMapping ();
-        urlMapping.setTitle(request.title());
-        urlMapping.setLongUrl(request.longUrl());
+        UrlMapping urlMapping = mapper.toEntity(request);
         urlMapping.setCode(generatedCode);
-        UrlMapping response = repository.save(urlMapping);
-        return new ShortUrlResponseDTO(
-                response.getTitle(),
-                response.getLongUrl(),
-                SHORT_URL_DOMAIN + response.getCode()
+        UrlMapping saved = repository.save(urlMapping);
+        
+        return new UrlMappingResponseDTO(
+                saved.getTitle(),
+                saved.getLongUrl(),
+                SHORT_URL_DOMAIN + saved.getCode()
         );
     }
 

@@ -1,7 +1,7 @@
 package com.example.urlShortener.controller;
 
-import com.example.urlShortener.dto.request.ShortUrlRequestDTO;
-import com.example.urlShortener.dto.response.ShortUrlResponseDTO;
+import com.example.urlShortener.dto.request.UrlMappingRequestDTO;
+import com.example.urlShortener.dto.response.UrlMappingResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -18,7 +18,7 @@ public interface ShortenerController {
             description = "A comunicação com o serviço foi realizada com sucesso e a URL curta foi gerada.",
             content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ShortUrlResponseDTO.class),
+                    schema = @Schema(implementation = UrlMappingResponseDTO.class),
                     examples = @ExampleObject(
                             value = """
                                 {
@@ -50,5 +50,5 @@ public interface ShortenerController {
             responseCode = "500",
             description = "Erro interno no servidor"
     )
-    ResponseEntity<ShortUrlResponseDTO> generateShortUrl(@RequestBody ShortUrlRequestDTO request);
+    ResponseEntity<UrlMappingResponseDTO> generateShortUrl(@RequestBody UrlMappingRequestDTO request);
 }

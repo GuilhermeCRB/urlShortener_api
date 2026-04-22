@@ -1,8 +1,8 @@
 package com.example.urlShortener.controller.impl;
 
 import com.example.urlShortener.controller.ShortenerController;
-import com.example.urlShortener.dto.request.ShortUrlRequestDTO;
-import com.example.urlShortener.dto.response.ShortUrlResponseDTO;
+import com.example.urlShortener.dto.request.UrlMappingRequestDTO;
+import com.example.urlShortener.dto.response.UrlMappingResponseDTO;
 import com.example.urlShortener.service.ShortenerService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -26,8 +26,8 @@ public class ShortenerControllerImpl implements ShortenerController {
 
     @Override
     @PostMapping(path = "", produces = "application/json")
-    public ResponseEntity<ShortUrlResponseDTO> generateShortUrl(@Valid @RequestBody ShortUrlRequestDTO request) {
-        ShortUrlResponseDTO response = shortenerService.shorten(request);
+    public ResponseEntity<UrlMappingResponseDTO> generateShortUrl(@Valid @RequestBody UrlMappingRequestDTO request) {
+        UrlMappingResponseDTO response = shortenerService.shorten(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }
