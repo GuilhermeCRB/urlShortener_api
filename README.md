@@ -1,6 +1,6 @@
 # Encurtador de Links - API (Backend)
 
-Este projeto consiste em uma API RESTful para um serviço de encurtamento de URLs, desenvolvida como parte de um desafio técnico. A solução foi desenhada com foco em alta disponibilidade, escalabilidade horizontal e segurança na nuvem.
+Este projeto consiste em uma API RESTful para um serviço de encurtamento de URLs. A solução foi desenhada com foco em alta disponibilidade, escalabilidade horizontal e segurança na nuvem.
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -17,7 +17,7 @@ Este projeto consiste em uma API RESTful para um serviço de encurtamento de URL
 
 ## 🏛️ Arquitetura e Decisões de Projeto
 
-Em conformidade com os requisitos do desafio, a aplicação foi estruturada seguindo os princípios de:
+A aplicação foi estruturada seguindo os princípios de:
 
 - **Stateless:** A API não mantém estado (sessões ou arquivos locais). Toda a persistência é delegada ao banco de dados relacional e a leitura de configurações sensíveis é feita via AWS Secrets Manager.
 - **Auto-escalável:** O deploy no AWS Fargate conta com políticas de *Auto Scaling* baseadas na utilização de CPU, permitindo que a aplicação cresça horizontalmente conforme a demanda de acessos.
@@ -31,7 +31,9 @@ Em conformidade com os requisitos do desafio, a aplicação foi estruturada segu
 ### Pré-requisitos
 - Java 17 instalado
 - Maven instalado
-- Docker Desktop (opcional, para rodar via container)
+
+### Opcional
+- Docker Desktop
 - Conta AWS com AWS CLI configurado (para leitura do Secrets Manager)
 
 ### Passos para execução
