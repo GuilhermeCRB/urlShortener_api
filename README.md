@@ -7,11 +7,12 @@ Este projeto consiste em uma API RESTful para um serviço de encurtamento de URL
 - **Linguagem:** Java 17
 - **Framework:** Spring Boot 3.2.0
 - **Persistência:** Spring Data JPA / Hibernate
-- **Banco de Dados:** PostgreSQL (Hospedado no AWS RDS)
 - **Segurança:** Spring Security (Configuração de CORS e liberação de rotas públicas)
 - **Gerenciamento de Segredos:** AWS Secrets Manager
 - **Containerização:** Docker
 - **Infraestrutura Cloud:** AWS ECS (Elastic Container Service) com Fargate (Serverless) e Application Load Balancer (ALB)
+- **Banco de Dados:** PostgreSQL (Hospedado no AWS RDS)
+- **Banco de Dados Local:** H2 Database (para desenvolvimento)
 
 ---
 
@@ -32,27 +33,52 @@ A aplicação foi estruturada seguindo os princípios de:
 - Java 17 instalado
 - Maven instalado
 
-### Opcional
-- Docker Desktop
-- Conta AWS com AWS CLI configurado (para leitura do Secrets Manager)
+---
 
-### Passos para execução
+### 🔹 Opção 1: Executar com Banco H2 (Recomendado para Desenvolvimento Local)
+
+Esta opção usa um banco de dados H2 em memória, sem necessidade de AWS ou PostgreSQL.
+
 1. Clone o repositório:
    ```bash
    git clone https://github.com/seu-usuario/seu-repositorio.git
+   cd seu-repositorio
+   ```
+
+2. Execute a aplicação com o profile local:
+   ```bash
+   mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=local"
+   ```
+
+3. Acesse a aplicação:
+   - **API:** http://localhost:8080
+   - **Console H2:** http://localhost:8080/h2-console
+     - JDBC URL: `jdbc:h2:mem:urlshortener`
+     - Username: `sa`
+     - Password: (deixe em branco)
+
+---
+
+### 🔹 Opção 2: Executar com PostgreSQL (AWS RDS)
+
+Esta opção conecta ao banco PostgreSQL hospedado na AWS.
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repositorio.git
+   cd seu-repositorio
+   ```
 
 2. Configure as credenciais da AWS no seu terminal ou ambiente:
    ```bash
-    export AWS_ACCESS_KEY_ID="sua_access_key"
-    export AWS_SECRET_ACCESS_KEY="sua_secret_key"
-    export AWS_REGION="us-east-1"
+   export AWS_ACCESS_KEY_ID="sua_access_key"
+   export AWS_SECRET_ACCESS_KEY="sua_secret_key"
+   export AWS_REGION="us-east-1"
+   ```
 
-3. Compile o projeto e gere o arquivo JAR:
+3. Execute a aplicação:
    ```bash
-   mvn clean package -DskipTests
+   mvn spring-boot:run
+   ```
 
-4. Execute a aplicação:
-   ```bash
-   java -jar target/urlShortener-0.0.1-SNAPSHOT.jar
-
-   
+---

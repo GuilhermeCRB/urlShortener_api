@@ -27,6 +27,6 @@ public class UrlMapping {
     @Column(name = "LONG_URL", nullable = false)
     private String longUrl;
 
-    @Column(name = "CODE", nullable = false, length = 5)
+    @Column(name = "CODE", unique = true, nullable = false, length = 5)
     private String code;
 }
