@@ -5,11 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 public record UrlMappingRequestDTO(
-        @NotBlank(message = "O título é obrigatório")
+        @NotBlank(message = "Title is required")
         String title,
 
-        @NotBlank(message = "A URL original é obrigatória")
-        @URL(message = "A URL original deve ser válida")
-        @Schema(description = "URL longa a ser encurtada", example = "https://www.google.com.br")
+        @NotBlank(message = "Original URL is required")
+        @URL(message = "Original URL must be valid")
+        @Schema(description = "Original URL to be shortened", example = "https://www.google.com.br")
         String longUrl
 ){}

@@ -17,11 +17,11 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleGeneralException(Exception ex, WebRequest request) {
-        logger.error("Erro interno no servidor: {}", ex.getMessage(), ex);
+        logger.error("Internal server error: {}", ex.getMessage(), ex);
         ExceptionResponse errorResponse = new ExceptionResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Erro interno no servidor.",
-                "Ocorreu um erro inesperado em nosso sistema. Nossa equipe técnica já foi notificada."
+                "Internal server error.",
+                "An unexpected error occurred in our system. Our technical team has been notified."
         );
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
@@ -29,13 +29,13 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
-        logger.warn("Requisição inválida: {}", ex.getMessage(), ex);
+        logger.warn("Invalid request: {}", ex.getMessage(), ex);
         ExceptionResponse errorResponse = new ExceptionResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                "Requisição inválida.",
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Invalid request.",
                 ex.getMessage()
         );
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -43,26 +43,26 @@ public class ResourceExceptionHandler {
         String errorMessage = ex.getBindingResult().getFieldErrors().stream()
                 .map(fieldError -> fieldError.getDefaultMessage())
                 .findFirst()
-                .orElse("Requisição inválida.");
+                .orElse("Invalid request.");
 
-        logger.warn("Erro de validação nos argumentos: {}", errorMessage, ex);
+        logger.warn("Argument validation error: {}", errorMessage, ex);
 
         ExceptionResponse errorResponse = new ExceptionResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                "Requisição inválida.",
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Invalid request.",
                 errorMessage
         );
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ExceptionResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, WebRequest request) {
-        logger.warn("Corpo da requisição ausente ou inválido: {}", ex.getMessage(), ex);
+        logger.warn("Request body missing or invalid: {}", ex.getMessage(), ex);
         ExceptionResponse errorResponse = new ExceptionResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                "Corpo da requisição ausente ou inválido.",
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Request body missing or invalid.",
                 ex.getMessage()
         );
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
     }
 }

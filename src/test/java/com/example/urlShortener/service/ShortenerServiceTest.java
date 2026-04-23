@@ -41,7 +41,7 @@ public class ShortenerServiceTest {
     private ShortenerServiceImpl service;
 
     @Nested
-    @DisplayName("Testes do método shorten")
+    @DisplayName("Tests for shorten() method")
     class ShortenTests {
         private String title;
         private String validUrl;
@@ -57,8 +57,8 @@ public class ShortenerServiceTest {
         }
 
         @Test
-        @DisplayName("Teste unitário dado uma URL válida quando shorten deve retornar a URL encurtada")
-        void TesteDadoUrlValida_QuandoShorten_DeveRetornarUrlEncurtada() {
+        @DisplayName("Should return shortened URL when given a valid URL")
+        void shouldReturnShortenedUrl_WhenGivenValidUrl() {
             // given
             when(repository.existsByCode(any(String.class))).thenReturn(false);
             when(mapper.toEntity(requestDTO)).thenReturn(urlMapping);
@@ -68,16 +68,16 @@ public class ShortenerServiceTest {
             UrlMappingResponseDTO response = service.shorten(requestDTO);
 
             // then
-            assertNotNull(response, "A resposta não deve ser nula.");
-            assertEquals(title, response.title(), "O título retornado deve ser o mesmo do título fornecido.");
-            assertEquals(validUrl, response.longUrl(), "A URL longa retornada deve ser a mesma da URL fornecida.");
-            assertTrue(response.shortUrl().startsWith(SHORTENER_DOMAIN), "A URL encurtada deve começar com o domínio configurado.");
-            assertTrue(response.shortUrl().length() > SHORTENER_DOMAIN.length(), "A URL encurtada deve conter um código após o domínio.");
+            assertNotNull(response, "Response should not be null.");
+            assertEquals(title, response.title(), "Returned title should match the provided title.");
+            assertEquals(validUrl, response.longUrl(), "Returned long URL should match the provided URL.");
+            assertTrue(response.shortUrl().startsWith(SHORTENER_DOMAIN), "Shortened URL should start with the configured domain.");
+            assertTrue(response.shortUrl().length() > SHORTENER_DOMAIN.length(), "Shortened URL should contain a code after the domain.");
         }
 
         @Test
-        @DisplayName("Teste unitário quando shorten deve gerar código com 5 caracteres")
-        void testeQuandoShorten_DeveGerarCodigoCom5Caracteres() {
+        @DisplayName("Should generate code with 5 characters")
+        void shouldGenerateCodeWith5Characters() {
             // given
             when(repository.existsByCode(any(String.class))).thenReturn(false);
             when(mapper.toEntity(requestDTO)).thenReturn(urlMapping);
@@ -88,12 +88,12 @@ public class ShortenerServiceTest {
             String code = response.shortUrl().substring(SHORTENER_DOMAIN.length());
 
             // then
-            assertEquals(5, code.length(), "O código deve ter exatamente 5 caracteres.");
+            assertEquals(5, code.length(), "Code should have exactly 5 characters.");
         }
 
         @Test
-        @DisplayName("Teste unitário quando shorten deve gerar código apenas com caracteres válidos")
-        void testeQuandoShorten_DeveGerarCodigoApenasComCaracteresValidos() {
+        @DisplayName("Should generate code with only valid characters")
+        void shouldGenerateCodeWithOnlyValidCharacters() {
             // given
             String validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             when(repository.existsByCode(any(String.class))).thenReturn(false);
@@ -106,13 +106,13 @@ public class ShortenerServiceTest {
 
             // then
             for (char c : code.toCharArray()) {
-                assertTrue(validChars.indexOf(c) >= 0, "O código deve conter apenas caracteres alfanuméricos: " + c);
+                assertTrue(validChars.indexOf(c) >= 0, "Code should contain only alphanumeric characters: " + c);
             }
         }
 
         @Test
-        @DisplayName("Teste unitário quando shorten deve gerar códigos diferentes (aleatoriedade)")
-        void testeQuandoShorten_DeveGerarCodigosDiferentes() {
+        @DisplayName("Should generate different codes (randomness)")
+        void shouldGenerateDifferentCodes() {
             // given
             Set<String> generatedCodes = new HashSet<>();
             int iterations = 100;
@@ -130,12 +130,12 @@ public class ShortenerServiceTest {
             }
 
             // then
-            assertEquals(100, generatedCodes.size(), "Deve gerar " + iterations + " códigos diferentes. Gerados: " + generatedCodes.size() + " únicos de " + iterations);
+            assertEquals(100, generatedCodes.size(), "Should generate " + iterations + " different codes. Generated: " + generatedCodes.size() + " unique out of " + iterations);
         }
 
         @Test
-        @DisplayName("Teste unitário quando existsByCode retorna true deve gerar novo código")
-        void testeQuandoExistsByCodeRetornaTrue_DeveGerarNovoCodigo() {
+        @DisplayName("Should generate new code when existsByCode returns true")
+        void shouldGenerateNewCode_WhenExistsByCodeReturnsTrue() {
             // given
             when(repository.existsByCode(any(String.class))).thenReturn(true, true, false);
             when(mapper.toEntity(requestDTO)).thenReturn(urlMapping);

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "URL Shortener", description = "Endpoint para encurtamento de URLs")
+@Tag(name = "URL Shortener", description = "Endpoint for URL shortening")
 @RestController
 @RequestMapping("/api/shortener")
 public class ShortenerControllerImpl implements ShortenerController {

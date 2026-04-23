@@ -1,82 +1,85 @@
-# Encurtador de Links - API (Backend)
+# URL Shortener - API (Backend)
 
-Este projeto consiste em uma API RESTful para um serviço de encurtamento de URLs. A solução foi desenhada com foco em alta disponibilidade, escalabilidade horizontal e segurança na nuvem.
+[![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
+[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](README.pt-BR.md)
 
-## 🚀 Tecnologias Utilizadas
+This project consists of a RESTful API for a URL shortening service. The solution was designed with a focus on high availability, horizontal scalability, and cloud security.
 
-- **Linguagem:** Java 17
+## 🚀 Technologies Used
+
+- **Language:** Java 17
 - **Framework:** Spring Boot 3.2.0
-- **Persistência:** Spring Data JPA / Hibernate
-- **Segurança:** Spring Security (Configuração de CORS e liberação de rotas públicas)
-- **Gerenciamento de Segredos:** AWS Secrets Manager
-- **Containerização:** Docker
-- **Infraestrutura Cloud:** AWS ECS (Elastic Container Service) com Fargate (Serverless) e Application Load Balancer (ALB)
-- **Banco de Dados:** PostgreSQL (Hospedado no AWS RDS)
-- **Banco de Dados Local:** H2 Database (para desenvolvimento)
+- **Persistence:** Spring Data JPA / Hibernate
+- **Security:** Spring Security (CORS configuration and public route release)
+- **Secrets Management:** AWS Secrets Manager
+- **Containerization:** Docker
+- **Cloud Infrastructure:** AWS ECS (Elastic Container Service) with Fargate (Serverless) and Application Load Balancer (ALB)
+- **Database:** PostgreSQL (Hosted on AWS RDS)
+- **Local Database:** H2 Database (for development)
 
 ---
 
-## 🏛️ Arquitetura e Decisões de Projeto
+## 🏛️ Architecture and Design Decisions
 
-A aplicação foi estruturada seguindo os princípios de:
+The application was structured following the principles of:
 
-- **Stateless:** A API não mantém estado (sessões ou arquivos locais). Toda a persistência é delegada ao banco de dados relacional e a leitura de configurações sensíveis é feita via AWS Secrets Manager.
-- **Auto-escalável:** O deploy no AWS Fargate conta com políticas de *Auto Scaling* baseadas na utilização de CPU, permitindo que a aplicação cresça horizontalmente conforme a demanda de acessos.
-- **Alta Disponibilidade (SLA 99%):** A aplicação está posicionada atrás de um *Application Load Balancer* (ALB), garantindo a distribuição de carga e execução de *Health Checks* contínuos para isolar instâncias falhas.
-- **Isolamento de Redes (Security Groups):** O banco de dados RDS está em uma camada isolada e só aceita conexões vindas do grupo de segurança da aplicação ECS. A aplicação, por sua vez, só aceita tráfego vindo do Load Balancer.
-
----
-
-## 🛠️ Como Executar o Projeto Localmente
-
-### Pré-requisitos
-- Java 17 instalado
-- Maven instalado
+- **Stateless:** The API does not maintain state (sessions or local files). All persistence is delegated to the relational database and reading sensitive configurations is done via AWS Secrets Manager.
+- **Auto-scalable:** The deployment on AWS Fargate has *Auto Scaling* policies based on CPU utilization, allowing the application to grow horizontally according to access demand.
+- **High Availability (SLA 99%):** The application is positioned behind an *Application Load Balancer* (ALB), ensuring load distribution and continuous *Health Checks* execution to isolate failed instances.
+- **Network Isolation (Security Groups):** The RDS database is in an isolated layer and only accepts connections from the ECS application security group. The application, in turn, only accepts traffic from the Load Balancer.
 
 ---
 
-### 🔹 Opção 1: Executar com Banco H2 (Recomendado para Desenvolvimento Local)
+## 🛠️ How to Run the Project Locally
 
-Esta opção usa um banco de dados H2 em memória, sem necessidade de AWS ou PostgreSQL.
+### Prerequisites
+- Java 17 installed
+- Maven installed
 
-1. Clone o repositório:
+---
+
+### 🔹 Option 1: Run with H2 Database (Recommended for Local Development)
+
+This option uses an in-memory H2 database, without the need for AWS or PostgreSQL.
+
+1. Clone the repository:
    ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
+   git clone https://github.com/your-username/your-repository.git
+   cd your-repository
    ```
 
-2. Execute a aplicação com o profile local:
+2. Run the application with the local profile:
    ```bash
    mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=local"
    ```
 
-3. Acesse a aplicação:
+3. Access the application:
    - **API:** http://localhost:8080
-   - **Console H2:** http://localhost:8080/h2-console
+   - **H2 Console:** http://localhost:8080/h2-console
      - JDBC URL: `jdbc:h2:mem:urlshortener`
      - Username: `sa`
-     - Password: (deixe em branco)
+     - Password: (leave blank)
 
 ---
 
-### 🔹 Opção 2: Executar com PostgreSQL (AWS RDS)
+### 🔹 Option 2: Run with PostgreSQL (AWS RDS)
 
-Esta opção conecta ao banco PostgreSQL hospedado na AWS.
+This option connects to the PostgreSQL database hosted on AWS.
 
-1. Clone o repositório:
+1. Clone the repository:
    ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
+   git clone https://github.com/your-username/your-repository.git
+   cd your-repository
    ```
 
-2. Configure as credenciais da AWS no seu terminal ou ambiente:
+2. Configure AWS credentials in your terminal or environment:
    ```bash
-   export AWS_ACCESS_KEY_ID="sua_access_key"
-   export AWS_SECRET_ACCESS_KEY="sua_secret_key"
+   export AWS_ACCESS_KEY_ID="your_access_key"
+   export AWS_SECRET_ACCESS_KEY="your_secret_key"
    export AWS_REGION="us-east-1"
    ```
 
-3. Execute a aplicação:
+3. Run the application:
    ```bash
    mvn spring-boot:run
    ```

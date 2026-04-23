@@ -11,28 +11,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
 public interface ShortenerController {
-    @Operation(summary = "Gerar URL Curta",
-            description = "Gera uma URL curta a partir de uma URL longa fornecida.")
+    @Operation(
+            summary = "Generate Short URL",
+            description = "Generates a short URL from a provided long URL."
+    )
     @ApiResponse(
+            description = "Short URL created successfully",
             responseCode = "201",
-            description = "A comunicação com o serviço foi realizada com sucesso e a URL curta foi gerada.",
             content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = UrlMappingResponseDTO.class),
                     examples = @ExampleObject(
                             value = """
                                 {
-                                  "title": "Exemplo de URL Encurtada",
-                                  "longUrl": "http://www.exemplo.com/uma-url-muito-longa",
-                                  "shortUrl": "http://www.zg.com.br/abc123"
+                                  "title": "Shortened URL Example",
+                                  "longUrl": "http://www.example.com/a-very-long-url",
+                                  "shortUrl": "http://www.shortexample.com.br/abc123"
                                 }
                             """
                     )
             )
     )
     @ApiResponse(
+            description = "Unprocessable Entity - Invalid URL",
             responseCode = "422",
-            description = "Erro de validação",
             content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = Error.class),
@@ -40,15 +42,27 @@ public interface ShortenerController {
                             value = """
                                 {
                                   "status": 422,
-                                  "message": "URL inválida"
+                                  "message": "Invalid URL"
                                 }
                             """
                     )
             )
     )
     @ApiResponse(
+            description = "Internal Server Error",
             responseCode = "500",
-            description = "Erro interno no servidor"
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Error.class),
+                    examples = @ExampleObject(
+                            value = """
+                                {
+                                  "status": 500,
+                                  "message": "An unexpected error occurred"
+                                }
+                            """
+                    )
+            )
     )
     ResponseEntity<UrlMappingResponseDTO> generateShortUrl(@RequestBody UrlMappingRequestDTO request);
 }

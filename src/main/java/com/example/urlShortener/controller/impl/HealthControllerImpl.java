@@ -12,6 +12,6 @@ public class HealthControllerImpl implements HealthController {
     @Override
     @GetMapping(path= "/api/health")
     public ResponseEntity<String> healthCeck() {
-        return ResponseEntity.ok("Aplicação está rodando!");
+        return ResponseEntity.ok("Application is running!");
     }
 }

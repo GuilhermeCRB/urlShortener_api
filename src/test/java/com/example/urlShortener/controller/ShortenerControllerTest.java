@@ -36,8 +36,8 @@ public class ShortenerControllerTest {
     private ShortenerServiceImpl shortenerService;
 
     @Test
-    @DisplayName("Teste unitário dado uma URL válida quando generateShortUrl deve retornar status 201 e a URL encurtada")
-    void testeDadoUrlValida_QuandoGenerateShortUrl_DeveRetornarStatus201EUrlEncurtada() throws Exception {
+    @DisplayName("Should return status 201 and shortened URL when given a valid URL")
+    void shouldReturnStatus201AndShortenedUrl_WhenGivenValidUrl() throws Exception {
         // given
         String validUrl = "https://www.example.com";
         String shortUrl = SHORTENER_DOMAIN + "abc123";

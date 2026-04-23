@@ -28,8 +28,7 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of(
-                "http://localhost:4200",
-                "http://url-shortener-front-12.s3-website-us-east-1.amazonaws.com"
+                "http://localhost:4200"
         ));
 
         configuration.setAllowedMethods(List.of("GET", "POST"));
