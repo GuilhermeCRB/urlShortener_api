@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -20,8 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ShortenerController.class)
 public class ShortenerControllerTest {
 
-    private static final String SHORT_URL_DOMAIN = "http://www.zg.com.br/";
     private static final String PATH = "/api/shortener";
+
+    @Value("${shortener.domain}")
+    private String SHORTENER_DOMAIN;
 
     @Autowired
     private MockMvc mockMvc;
@@ -37,7 +40,7 @@ public class ShortenerControllerTest {
     void testeDadoUrlValida_QuandoGenerateShortUrl_DeveRetornarStatus201EUrlEncurtada() throws Exception {
         // given
         String validUrl = "https://www.example.com";
-        String shortUrl = SHORT_URL_DOMAIN + "abc123";
+        String shortUrl = SHORTENER_DOMAIN + "abc123";
         String title = "Example Title";
         UrlMappingResponseDTO responseDTO = new UrlMappingResponseDTO(title, validUrl, shortUrl);
         UrlMappingRequestDTO requestDTO = new UrlMappingRequestDTO(title, validUrl);

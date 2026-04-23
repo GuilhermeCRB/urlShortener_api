@@ -6,16 +6,19 @@ import com.example.urlShortener.dto.mapper.UrlMappingMapper;
 import com.example.urlShortener.model.UrlMapping;
 import com.example.urlShortener.repository.ShortenerRepository;
 import com.example.urlShortener.service.ShortenerService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 
 @Service
 public class ShortenerServiceImpl implements ShortenerService {
-    private static final String SHORT_URL_DOMAIN = "http://www.zg.com.br/";
     private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final int MAX_CHARACTERS_CODE = 5;
     private static final SecureRandom RANDOM = new SecureRandom();
+
+    @Value("${shortener.domain}")
+    private String SHORTENER_DOMAIN;
 
     private final ShortenerRepository repository;
     private final UrlMappingMapper mapper;
@@ -40,7 +43,7 @@ public class ShortenerServiceImpl implements ShortenerService {
         return new UrlMappingResponseDTO(
                 saved.getTitle(),
                 saved.getLongUrl(),
-                SHORT_URL_DOMAIN + saved.getCode()
+                SHORTENER_DOMAIN + saved.getCode()
         );
     }
 
