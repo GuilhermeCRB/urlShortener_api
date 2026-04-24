@@ -1,5 +1,6 @@
 package com.example.urlShortener.core.handler;
 
+import com.example.urlShortener.core.constants.ApiMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,18 +16,13 @@ public class ResourceExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(ResourceExceptionHandler.class);
 
-    public static final String INTERNAL_SERVER_ERROR_MESSAGE = "Internal server error.";
-    public static final String INTERNAL_SERVER_ERROR_DETAILS = "An unexpected error occurred in our system. Our technical team has been notified.";
-    public static final String UNPROCESSABLE_ENTITY_MESSAGE = "Invalid request.";
-    public static final String REQUEST_BODY_MISSING_MESSAGE = "Request body missing or invalid.";
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleGeneralException(Exception ex, WebRequest request) {
         logger.error("Internal server error: {}", ex.getMessage(), ex);
         ExceptionResponse errorResponse = new ExceptionResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                INTERNAL_SERVER_ERROR_MESSAGE,
-                INTERNAL_SERVER_ERROR_DETAILS
+                ApiMessages.INTERNAL_SERVER_ERROR_MESSAGE,
+                ApiMessages.INTERNAL_SERVER_ERROR_DETAILS
         );
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
@@ -37,13 +33,13 @@ public class ResourceExceptionHandler {
         String errorMessage = ex.getBindingResult().getFieldErrors().stream()
                 .map(fieldError -> fieldError.getDefaultMessage())
                 .findFirst()
-                .orElse(UNPROCESSABLE_ENTITY_MESSAGE);
+                .orElse(ApiMessages.UNPROCESSABLE_ENTITY_MESSAGE);
 
         logger.warn("Argument validation error: {}", errorMessage, ex);
 
         ExceptionResponse errorResponse = new ExceptionResponse(
                 HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                UNPROCESSABLE_ENTITY_MESSAGE,
+                ApiMessages.UNPROCESSABLE_ENTITY_MESSAGE,
                 errorMessage
         );
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
@@ -54,7 +50,7 @@ public class ResourceExceptionHandler {
         logger.warn("Request body missing or invalid: {}", ex.getMessage(), ex);
         ExceptionResponse errorResponse = new ExceptionResponse(
                 HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                REQUEST_BODY_MISSING_MESSAGE,
+                ApiMessages.REQUEST_BODY_MISSING_MESSAGE,
                 ex.getMessage()
         );
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);

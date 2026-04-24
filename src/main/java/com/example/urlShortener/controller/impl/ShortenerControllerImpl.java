@@ -1,6 +1,7 @@
 package com.example.urlShortener.controller.impl;
 
 import com.example.urlShortener.controller.ShortenerController;
+import com.example.urlShortener.core.constants.ApiPaths;
 import com.example.urlShortener.dto.request.UrlMappingRequestDTO;
 import com.example.urlShortener.dto.response.UrlMappingResponseDTO;
 import com.example.urlShortener.service.ShortenerService;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "URL Shortener", description = "Endpoint for URL shortening")
 @RestController
-@RequestMapping("/api/shortener")
+@RequestMapping(ApiPaths.SHORTENER)
 public class ShortenerControllerImpl implements ShortenerController {
 
     private final ShortenerService shortenerService;

@@ -1,6 +1,7 @@
 package com.example.urlShortener.controller;
 
-import com.example.urlShortener.core.handler.ResourceExceptionHandler;
+import com.example.urlShortener.core.constants.ApiMessages;
+import com.example.urlShortener.core.constants.ApiPaths;
 import com.example.urlShortener.core.security.WebSecurityConfig;
 import com.example.urlShortener.dto.request.UrlMappingRequestDTO;
 import com.example.urlShortener.dto.response.UrlMappingResponseDTO;
@@ -27,8 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(WebSecurityConfig.class)
 public class ShortenerControllerTest {
 
-    private static final String PATH = "/api/shortener";
-
     @Value("${shortener.domain}")
     private String SHORTENER_DOMAIN;
 
@@ -51,7 +50,7 @@ public class ShortenerControllerTest {
         when(shortenerService.shorten(requestDTO)).thenReturn(responseDTO);
 
         // when & then
-        mockMvc.perform(post(PATH)
+        mockMvc.perform(post(ApiPaths.SHORTENER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO))
                         .accept(MediaType.APPLICATION_JSON))
@@ -68,12 +67,12 @@ public class ShortenerControllerTest {
         UrlMappingRequestDTO requestDTO = UrlMappingFactory.createRequestDTO("", UrlMappingFactory.DEFAULT_LONG_URL);
 
         // when & then
-        mockMvc.perform(post(PATH)
+        mockMvc.perform(post(ApiPaths.SHORTENER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("$.message").value(ResourceExceptionHandler.UNPROCESSABLE_ENTITY_MESSAGE))
+                .andExpect(jsonPath("$.message").value(ApiMessages.UNPROCESSABLE_ENTITY_MESSAGE))
                 .andExpect(jsonPath("$.details").value(UrlMappingRequestDTO.TITLE_REQUIRED_MESSAGE));
     }
 
@@ -84,12 +83,12 @@ public class ShortenerControllerTest {
         UrlMappingRequestDTO requestDTO = UrlMappingFactory.createRequestDTO(UrlMappingFactory.DEFAULT_TITLE, "");
 
         // when & then
-        mockMvc.perform(post(PATH)
+        mockMvc.perform(post(ApiPaths.SHORTENER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("$.message").value(ResourceExceptionHandler.UNPROCESSABLE_ENTITY_MESSAGE))
+                .andExpect(jsonPath("$.message").value(ApiMessages.UNPROCESSABLE_ENTITY_MESSAGE))
                 .andExpect(jsonPath("$.details").value(UrlMappingRequestDTO.LONG_URL_REQUIRED_MESSAGE));
     }
 
@@ -100,12 +99,12 @@ public class ShortenerControllerTest {
         UrlMappingRequestDTO requestDTO = UrlMappingFactory.createRequestDTO(UrlMappingFactory.DEFAULT_TITLE, "invalid-url");
 
         // when & then
-        mockMvc.perform(post(PATH)
+        mockMvc.perform(post(ApiPaths.SHORTENER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("$.message").value(ResourceExceptionHandler.UNPROCESSABLE_ENTITY_MESSAGE))
+                .andExpect(jsonPath("$.message").value(ApiMessages.UNPROCESSABLE_ENTITY_MESSAGE))
                 .andExpect(jsonPath("$.details").value(UrlMappingRequestDTO.LONG_URL_INVALID_MESSAGE));
     }
 
@@ -117,12 +116,12 @@ public class ShortenerControllerTest {
         when(shortenerService.shorten(any(UrlMappingRequestDTO.class))).thenThrow(new RuntimeException("Database connection failed"));
 
         // when & then
-        mockMvc.perform(post(PATH)
+        mockMvc.perform(post(ApiPaths.SHORTENER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
-                .andExpect(jsonPath("$.message").value(ResourceExceptionHandler.INTERNAL_SERVER_ERROR_MESSAGE))
-                .andExpect(jsonPath("$.details").value(ResourceExceptionHandler.INTERNAL_SERVER_ERROR_DETAILS));
+                .andExpect(jsonPath("$.message").value(ApiMessages.INTERNAL_SERVER_ERROR_MESSAGE))
+                .andExpect(jsonPath("$.details").value(ApiMessages.INTERNAL_SERVER_ERROR_DETAILS));
     }
 }
