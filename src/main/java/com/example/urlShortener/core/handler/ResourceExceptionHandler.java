@@ -15,27 +15,21 @@ public class ResourceExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(ResourceExceptionHandler.class);
 
+    public static final String INTERNAL_SERVER_ERROR_MESSAGE = "Internal server error.";
+    public static final String INTERNAL_SERVER_ERROR_DETAILS = "An unexpected error occurred in our system. Our technical team has been notified.";
+    public static final String UNPROCESSABLE_ENTITY_MESSAGE = "Invalid request.";
+    public static final String REQUEST_BODY_MISSING_MESSAGE = "Request body missing or invalid.";
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleGeneralException(Exception ex, WebRequest request) {
         logger.error("Internal server error: {}", ex.getMessage(), ex);
         ExceptionResponse errorResponse = new ExceptionResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Internal server error.",
-                "An unexpected error occurred in our system. Our technical team has been notified."
+                INTERNAL_SERVER_ERROR_MESSAGE,
+                INTERNAL_SERVER_ERROR_DETAILS
         );
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
-        logger.warn("Invalid request: {}", ex.getMessage(), ex);
-        ExceptionResponse errorResponse = new ExceptionResponse(
-                HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                "Invalid request.",
-                ex.getMessage()
-        );
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -43,13 +37,13 @@ public class ResourceExceptionHandler {
         String errorMessage = ex.getBindingResult().getFieldErrors().stream()
                 .map(fieldError -> fieldError.getDefaultMessage())
                 .findFirst()
-                .orElse("Invalid request.");
+                .orElse(UNPROCESSABLE_ENTITY_MESSAGE);
 
         logger.warn("Argument validation error: {}", errorMessage, ex);
 
         ExceptionResponse errorResponse = new ExceptionResponse(
                 HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                "Invalid request.",
+                UNPROCESSABLE_ENTITY_MESSAGE,
                 errorMessage
         );
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
@@ -60,7 +54,7 @@ public class ResourceExceptionHandler {
         logger.warn("Request body missing or invalid: {}", ex.getMessage(), ex);
         ExceptionResponse errorResponse = new ExceptionResponse(
                 HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                "Request body missing or invalid.",
+                REQUEST_BODY_MISSING_MESSAGE,
                 ex.getMessage()
         );
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
