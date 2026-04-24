@@ -4,7 +4,7 @@ import com.example.urlShortener.dto.request.UrlMappingRequestDTO;
 import com.example.urlShortener.dto.response.UrlMappingResponseDTO;
 import com.example.urlShortener.dto.mapper.UrlMappingMapper;
 import com.example.urlShortener.model.UrlMapping;
-import com.example.urlShortener.repository.ShortenerRepository;
+import com.example.urlShortener.repository.UrlMappingRepository;
 import com.example.urlShortener.service.ShortenerService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,10 +20,10 @@ public class ShortenerServiceImpl implements ShortenerService {
     @Value("${shortener.domain}")
     private String SHORTENER_DOMAIN;
 
-    private final ShortenerRepository repository;
+    private final UrlMappingRepository repository;
     private final UrlMappingMapper mapper;
 
-    public ShortenerServiceImpl(ShortenerRepository repository, UrlMappingMapper mapper) {
+    public ShortenerServiceImpl(UrlMappingRepository repository, UrlMappingMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

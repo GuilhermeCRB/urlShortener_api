@@ -1,11 +1,11 @@
-package com.example.urlShortener.service;
+package com.example.urlShortener.unit.service;
 
 import com.example.urlShortener.dto.request.UrlMappingRequestDTO;
 import com.example.urlShortener.dto.response.UrlMappingResponseDTO;
 import com.example.urlShortener.dto.mapper.UrlMappingMapper;
 import com.example.urlShortener.factory.UrlMappingFactory;
 import com.example.urlShortener.model.UrlMapping;
-import com.example.urlShortener.repository.ShortenerRepository;
+import com.example.urlShortener.repository.UrlMappingRepository;
 import com.example.urlShortener.service.impl.ShortenerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.HashSet;
@@ -25,14 +24,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
-public class ShortenerServiceTest {
+public class ShortenerServiceTest extends BaseServiceTest {
 
     @Value("${shortener.domain}")
     private String SHORTENER_DOMAIN;
 
     @MockBean
-    private ShortenerRepository repository;
+    private UrlMappingRepository repository;
 
     @MockBean
     private UrlMappingMapper mapper;
