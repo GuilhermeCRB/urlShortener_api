@@ -1,0 +1,16 @@
+# Example Terraform Variables File
+# Copy this file to terraform.tfvars and fill in your actual values
+
+# --- Project Configuration ---
+project_name = "url-shortener"
+environment  = "prod"
+
+# --- AWS Configuration ---
+aws_region = "us-east-1"
+
+# --- Container Configuration ---
+container_image = "123456789012.dkr.ecr.us-east-1.amazonaws.com/url-shortener:latest"
+container_port  = 8080
+
+# --- Database Configuration ---
+db_password = "your-secure-password-here"

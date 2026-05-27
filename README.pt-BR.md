@@ -85,3 +85,43 @@ Esta opção conecta ao banco PostgreSQL hospedado na AWS.
    ```
 
 ---
+
+## ☁️ Deploy na AWS com Terraform
+
+### Pré-requisitos
+- AWS CLI configurado com credenciais apropriadas
+- Terraform instalado (>= 1.5.0)
+- Imagem Docker enviada para o AWS ECR
+
+### Passos
+
+1. Navegue até o diretório terraform:
+   ```bash
+   cd terraform
+   ```
+
+2. Crie seu arquivo de variáveis a partir do exemplo:
+   ```bash
+   cp terraform.tfvars.example terraform.tfvars
+   ```
+
+3. Edite `terraform.tfvars` e configure:
+   - `container_image`: URI do seu repositório ECR
+   - `db_password`: Uma senha forte para o banco de dados RDS
+   - Outras variáveis conforme necessário
+
+4. Inicialize o Terraform:
+   ```bash
+   terraform init
+   ```
+
+5. Revise o plano de infraestrutura:
+   ```bash
+   terraform plan
+   ```
+
+6. Aplique a infraestrutura:
+   ```bash
+   terraform apply
+   ```
+---

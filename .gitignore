@@ -31,3 +31,20 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Terraform ###
+*.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+### AWS ###
+.aws/
+*.pem
+*.key
+
+### Environment Variables ###
+.env
+.env.local
+.env.*.local
